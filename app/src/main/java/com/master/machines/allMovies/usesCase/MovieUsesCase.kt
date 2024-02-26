@@ -1,6 +1,5 @@
 package com.master.machines.allMovies.usesCase
 
-import com.master.machines.allMovies.data.dataBase.entity.MovieEntity
 import com.master.machines.allMovies.data.dataBase.pojo.MovieWithGenreId
 import com.master.machines.allMovies.data.models.Movie
 import com.master.machines.allMovies.data.models.ResponseAllMoviesDTO
