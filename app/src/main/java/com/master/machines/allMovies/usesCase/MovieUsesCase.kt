@@ -1,5 +1,6 @@
 package com.master.machines.allMovies.usesCase
 
+import androidx.paging.PagingData
 import com.master.machines.allMovies.data.dataBase.pojo.MovieWithGenreId
 import com.master.machines.allMovies.data.models.Movie
 import com.master.machines.allMovies.data.models.ResponseAllMoviesDTO
@@ -18,7 +19,10 @@ class MovieUsesCase @Inject constructor(
         page: Int, apiKey: String
     ): Flow<Response<ResponseAllMoviesDTO>> = repositoryCloud.getAllMovies(page, apiKey)
 
-    suspend operator fun invoke(listMovies: List<Movie>): Flow<Unit> =
+    suspend operator fun invoke(listId: List<Int>): Flow<PagingData<MovieWithGenreId>> =
+        repositoryLocal.getListAllMovies(listId)
+
+    suspend operator fun invoke(listMovies: List<Movie>, test: Boolean): Flow<Unit> =
         repositoryLocal.saveAllMovies(listMovies)
 
     suspend operator fun invoke(movieId: Int): Flow<MovieWithGenreId?> =

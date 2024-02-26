@@ -1,5 +1,6 @@
 package com.master.machines.allMovies.data.dataBase.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -20,8 +21,11 @@ interface DaoMovie {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(@NotNull entities: List<MovieEntity>)
 
-    @Query("SELECT * FROM MovieEntity")
-    suspend fun getListAll(): List<MovieWithGenreId>
+    @Query("SELECT * FROM MovieEntity WHERE id NOT IN (:listId) ORDER BY id ASC")
+    fun getListAll(listId: List<Int>): PagingSource<Int, MovieWithGenreId>
+
+    @Query("SELECT * FROM MovieEntity ORDER BY id ASC")
+    fun getListAll(): PagingSource<Int, MovieWithGenreId>
 
     @Query("SELECT * FROM MovieEntity WHERE id = :id")
     suspend fun getItem(id: Int): MovieWithGenreId?

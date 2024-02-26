@@ -73,7 +73,6 @@ fun Home(navigationViewModel: NavigationViewModel) {
                 }
             }
         }
-
     }
 
     LaunchedEffect(listState) {
@@ -82,7 +81,7 @@ fun Home(navigationViewModel: NavigationViewModel) {
         }.collectLatest { index ->
             if (messageLoading.isEmpty() && index != null && index >= dataList.size - 1) {
                 homeViewModel.page++
-                homeViewModel.getAllMovies()
+                homeViewModel.getAllMoviesCloud()
             }
         }
     }

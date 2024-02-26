@@ -1,6 +1,8 @@
 package com.master.machines.allMovies.data.repository.local
 
+import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.master.machines.allMovies.data.dataBase.DataBase
 import com.master.machines.allMovies.data.dataBase.entity.GenreIdsEntity
 import com.master.machines.allMovies.data.dataBase.entity.MovieEntity
@@ -14,7 +16,7 @@ import javax.inject.Inject
 class RepositoryLocal @Inject constructor(dataBase: DataBase) : DataSource.DataSourceLocal {
 
     private val config = PagingConfig(
-        pageSize = 15, prefetchDistance = 5, initialLoadSize = 15, enablePlaceholders = true
+        pageSize = 20, prefetchDistance = 1, initialLoadSize = 20, enablePlaceholders = true
     )
     private val movieDao = dataBase.movieDao()
     private val genreIdDao = dataBase.genreIdDao()
@@ -27,6 +29,16 @@ class RepositoryLocal @Inject constructor(dataBase: DataBase) : DataSource.DataS
             } ?: listOf())
         }
         emit(result)
+    }
+
+    override suspend fun getListAllMovies(listId: List<Int>): Flow<PagingData<MovieWithGenreId>> {
+        val pager: Pager<Int, MovieWithGenreId> = Pager(config) {
+            when {
+                listId.isEmpty() -> movieDao.getListAll()
+                else -> movieDao.getListAll(listId)
+            }
+        }
+        return pager.flow
     }
 
     override suspend fun getItemMovie(id: Int): Flow<MovieWithGenreId?> = flow {

@@ -11,5 +11,5 @@ import kotlinx.parcelize.Parcelize
 data class MovieWithGenreId(
     @Embedded var movie: MovieEntity = MovieEntity(), @Relation(
         parentColumn = "id", entityColumn = "idMovie"
-    ) var listSeller: List<GenreIdsEntity> = listOf()
+    ) var listGenreIds: List<GenreIdsEntity> = listOf()
 ) : Parcelable

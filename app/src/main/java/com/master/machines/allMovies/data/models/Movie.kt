@@ -1,6 +1,7 @@
 package com.master.machines.allMovies.data.models
 
 import android.os.Parcelable
+import com.master.machines.allMovies.data.dataBase.pojo.MovieWithGenreId
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -19,4 +20,23 @@ data class Movie(
     var video: Boolean? = null,
     var vote_average: Double? = null,
     var vote_count: Int? = null
-) : Parcelable
+) : Parcelable {
+    constructor(movieWithGenreId: MovieWithGenreId) : this() {
+        val movie = movieWithGenreId.movie
+        val listId = movieWithGenreId.listGenreIds
+        adult = movie.adult
+        backdrop_path = movie.backdropPath
+        genre_ids = listId.map { it.genreId ?: 0 }
+        id = movie.id
+        original_language = movie.originalLanguage
+        original_title = movie.originalTitle
+        overview = movie.overview
+        popularity = movie.popularity
+        poster_path = movie.posterPath
+        release_date = movie.releaseDate
+        title = movie.title
+        video = movie.video
+        vote_average = movie.voteAverage
+        vote_count = movie.voteCount
+    }
+}
